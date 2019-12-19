@@ -60,10 +60,13 @@ public class GoodsController {
 		return mav;
 	}
 	@RequestMapping("select")
-	public ModelAndView select(ModelAndView mav,String selectgood) {
+	public ModelAndView select(ModelAndView mav,String selectgood,@RequestParam(required = true,defaultValue = "1") int page) {
+		int size=6;
+		PageHelper.startPage(page,size);
 		List<Goods> goods =gs.selectgoods(selectgood);
+		PageInfo<Goods> info=new PageInfo<Goods>(goods, size);
 		mav.setViewName("../goods");
-		mav.addObject("goods", goods);
+		mav.addObject("info", info);
 		return mav;
 	}
 	
